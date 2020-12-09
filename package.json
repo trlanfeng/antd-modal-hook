@@ -1,0 +1,23 @@
+{
+  "name": "antd-modal-hook",
+  "version": "0.0.1",
+  "description": "A hook for use ant design modal more easier",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "trlanfeng",
+  "license": "MIT",
+  "devDependencies": {
+    "react": "^17.0.1",
+    "typescript": "^4.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trlanfeng/antd-modal-hook.git"
+  },
+  "dependencies": {}
+}
