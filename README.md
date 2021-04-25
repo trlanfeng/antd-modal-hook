@@ -1,5 +1,7 @@
 antd-modal-hook
 
+![npm](https://img.shields.io/npm/v/antd-modal-hook)
+
 适用于`ant design`的`modal hook`，更简单、通用的调用弹框组件
 
 # usage
