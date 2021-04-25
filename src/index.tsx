@@ -6,23 +6,21 @@ export interface ModalProps {
   visible?: boolean;
   onCancel?: () => void;
   onOk?: (data?: any) => void;
+  maskClosable?: boolean;
 }
 
-type ModalResult = [FC<any>, (value: boolean) => void, (value: any) => void];
-
 export const useModal = (
-  Component: FC<ModalProps & any>,
-  params?: ModalProps
-): ModalResult => {
+  Component: FC<ModalProps>,
+  params?: ModalProps,
+): [FC, (value: boolean) => void, (value: any) => void] => {
   const { visible, onCancel, title, onOk, data } = params || {};
   const [modalVisible, setModalVisible] = useState<boolean>(visible || false);
   const [modalData, setModalData] = useState<any>(data || {});
 
-  const ModalComponent: FC<any> = (props) => (
+  const ModalComponent: FC = () => (
     <>
       {modalVisible ? (
         <Component
-          {...props}
           data={modalData}
           visible={modalVisible}
           title={title}
@@ -30,9 +28,9 @@ export const useModal = (
             setModalVisible(false);
             onCancel?.();
           }}
-          onOk={(data: any) => {
+          onOk={() => {
             setModalVisible(false);
-            onOk?.(data);
+            onOk?.();
           }}
         />
       ) : null}
@@ -40,4 +38,32 @@ export const useModal = (
   );
 
   return [ModalComponent, setModalVisible, setModalData];
+};
+
+type ModalHookResult = [
+  ModalProps,
+  React.Dispatch<React.SetStateAction<boolean>>,
+  React.Dispatch<any>,
+];
+
+export const useModalProps = (props?: ModalProps): ModalHookResult => {
+  const [visible, setVisible] = useState<boolean>(false);
+  const [data, setData] = useState<any>(props?.data || {});
+  return [
+    {
+      ...props,
+      visible,
+      data,
+      onOk(value?: any) {
+        setVisible(false);
+        props?.onOk?.(value);
+      },
+      onCancel() {
+        setVisible(false);
+        props?.onCancel?.();
+      },
+    },
+    setVisible,
+    setData,
+  ];
 };
